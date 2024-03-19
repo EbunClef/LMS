@@ -1,0 +1,68 @@
+Classes Overview:
+
+Book Class:
+
+Attributes:
+ISBN: A unique identifier for each book.
+Title: A string representing the title of the book.
+Author: A string representing the author of the book.
+Genre: A string representing the genre of the book.
+Quantity: An integer representing the number of copies available.
+Published Year: An integer representing the year the book was published.
+
+Methods:
+__init__: Initializes the attributes.
+update_quantity: Allows updating the quantity of available copies.
+to_dict: Returns a dictionary representation of the book.
+
+Library Class:
+
+Attributes:
+books: A list storing Book instances.
+
+Methods:
+__init__: Initializes the list of books.
+add_book: Adds a book to the library.
+remove_book: Removes a book from the library.
+search_by_author: Retrieves books by a specific author.
+search_by_genre: Retrieves books by a specific genre.
+get_available_books: Retrieves books with available copies.
+to_dict: Returns a list of dictionaries representing each book in the library.
+
+Member Class:
+
+Attributes:
+Member ID: A unique identifier for each member.
+Name: A string representing the name of the member.
+Books Borrowed: A list storing Book instances that the member has borrowed.
+
+Methods:
+__init__: Initializes the attributes.
+borrow_book: Allows a member to borrow a book (update the quantity of available copies).
+return_book: Allows a member to return a book (update the quantity of available copies).
+get_borrowed_books: Returns a list of dictionaries representing the books borrowed by the member.
+to_dict: Returns a dictionary representation of the member.
+
+LibrarySystem Class:
+
+Attributes:
+library: An instance of the Library class.
+members: A list storing Member instances.
+
+Methods:
+__init__: Initializes the library and the list of members.
+add_member: Adds a member to the system.
+remove_member: Removes a member from the system.
+search_books: Searches for books based on title, author, or genre.
+borrow_book: Allows a member to borrow a book.
+return_book: Allows a member to return a book.
+get_library_status: Returns the list of available books in the library.
+get_member_status: Returns the list of members and their borrowed books.
+to_dict: Returns a dictionary representation of the entire library system.
+
+GitHub:
+After completing the implementation, create a GitHub repository and share your project. The README.md file should:
+
+Describe the project in detail.
+Explain how to clone the repository.
+Provide instructions on how to run the code and interact with the Library Management System.
