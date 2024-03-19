@@ -25,7 +25,7 @@ https://github.com/EbunClef/LMS.git
 2. Navigate to the project directory:
 
 ```
-cd library-management-system
+cd LMS
 ```
 
 3. Run the test script:
