@@ -19,7 +19,7 @@ To run the project, follow these steps:
 1. Clone the repository to your local machine:
 
 ```
-git clone https://github.com/your-username/library-management-system.git
+https://github.com/EbunClef/LMS.git
 ```
 
 2. Navigate to the project directory:
