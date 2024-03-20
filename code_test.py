@@ -1,9 +1,5 @@
-# Import the Book and Library classes 
-from book import Book  
+from book import Book
 from library import Library
-from member import Member
-from library_system import LibrarySystem
-
 
 # Create instances of the Book class
 book1 = Book("ISBN123", "Aké: The Years of Childhood", "Wole Soyinka", "Autobiography", 15, 1981)
@@ -16,10 +12,9 @@ book7 = Book("ISBN129", "Everything Good Will Come", "Sefi Atta", "Novel", 50, 2
 book8 = Book("ISBN130", "Sozaboy", "Ken Saro-Wiwa", "Novel", 5, 1985)
 book9 = Book("ISBN131", "Women of Owu", "Femi Osofisan", "Novel", 25, 2006)
 book10 = Book("ISBN132", "The Bride Price", "Buchi Emecheta", "Novel", 7, 1976)
-# Create an instance of the Library class
+
 library = Library()
 
-# Test the add_book method
 library.add_book(book1)
 library.add_book(book2)
 library.add_book(book3)
@@ -31,147 +26,109 @@ library.add_book(book8)
 library.add_book(book9)
 library.add_book(book10)
 
+class Member:
+    def __init__(self, member_id, name):
+        self.member_id = member_id
+        self.name = name
+        self.books_borrowed = []
+        
+    def borrow_book(self, library, book_title):
+        # Find the book in the library by title
+        book_to_borrow = None
+        for book in library.library:
+            if book.title == book_title:
+                book_to_borrow = book
+                break
+        
+        if book_to_borrow is None:
+            return "Book with title '{}' not found in the library.".format(book_title), None
+        
+        # Check if the book is available
+        if book_to_borrow.quantity > 0:
+            # Reduce the quantity of available copies
+            book_to_borrow.quantity -= 1
+            # Add the book to the member's list of borrowed books
+            self.books_borrowed.append(book_to_borrow)
+            return "Book '{}' successfully borrowed by {}. Quantity left: {}.".format(book_title, self.name, book_to_borrow.quantity), book_to_borrow.quantity
+        else:
+            return "Book '{}' is not available for borrowing.".format(book_title), None
+    
+        
+    def return_book(self, book):
+        # Allows a member to return a book
+        if book in self.books_borrowed:
+            self.books_borrowed.remove(book)
+        
+    def get_borrowed_books(self):
+        # Returns a list of dictionaries representing the books borrowed by the member
+        borrowed_books_info = []
+        for book in self.books_borrowed:
+            borrowed_books_info.append(book.to_dict())
+        return borrowed_books_info
+    
+    def to_dict(self):
+        # Returns a dictionary representation of the member
+        return {
+            'member_id': self.member_id,
+            'name': self.name,
+            'books_borrowed': [book.to_dict() for book in self.books_borrowed]
+        }
 
 #Create instances of the Members class
-member1 = Member("ID001", "John")
-member2 = Member("ID002", "Alice")
+member1 = Member("ID001", "Bukola")
+member2 = Member("ID002", "Saka")
+member3 = Member("ID003", "Osas")
+member4 = Member("ID004", "Friday")
+member5 = Member("ID005", "Francis")
 
-
-# # Print the current library content
-# print("Library after adding books:")
-# for book in library.library:
-#     print(book.to_dict())
-
-# # Test the remove_book method
-# library.remove_book("ISBN125")
-# library.remove_book("ISBN123")
-# library.remove_book("ISBN131")
-
-# # Print the library content after removing a book
-# print("\nLibrary after removing a book:")
-# for book in library.library:
-#     print(book.to_dict())
-
-
-# # Print the contents of the library
+# Test various methods of the Library class
 # print("Library Contents:")
-# for book in library.library:
-#     print(book.to_dict())
+# print(library.to_dict())
 
-
-# # Test the search_by_author method
-# author_to_search = input("What author do you want to search for? ")
+# print("\nSearch by author")
+# author_to_search = input("Whose book do you want to read today? ")
 # search_result = library.search_by_author(author_to_search)
 
-# print("\nSearch Result:")
+# print("\nSearch Result")
 # if search_result:
 #     for book in search_result:
 #         print(book.to_dict())
 # else:
-#     print(f"No books found by {author_to_search}.")
+#     print(f"No book found by {author_to_search}")
 
-# # Test the search_by_genre method
-# genre_to_search = input("What genre do you want to search for? ")
+# print("\nSerach by Book Genre:")
+# genre_to_search = input("What book genre would like to read today? ")
 # search_result = library.search_by_genre(genre_to_search)
 
-# print("\nSearch Result:")
+# print("\nSearch Result")
 # if search_result:
 #     for book in search_result:
 #         print(book.to_dict())
 # else:
-#     print(f"No books found of the genre {genre_to_search}.")
-    
-# # Test the get_book_by_title method
-# title_to_search = input("What book title do you want to get? ")
-# search_result = library.get_book_by_title(title_to_search)
+#     print(f"No book with the genre {genre_to_search} \nPlease try another genre.")
 
-# print("\nSearch Result:")
+# print("\nSearch by book title:")
+# book_title = input("What is the title of the book you'd like to read today? ")
+# search_result = library.get_book_by_title(book_title)
+
+# print("\nSearch Result")
 # if search_result:
 #     for book in search_result:
 #         print(book.to_dict())
 # else:
-#     print(f"No books found of the genre {title_to_search}.")
+#     print(f"No book found with the title {book_title}.\nPlease try another book title")
 
-# # Test the get_available_books method
-# quantity_to_check = int(input("Enter the minimum quantity of available copies: "))
-# available_books_result = library.get_available_books(quantity_to_check)
-
-# print("\nAvailable Books:")
-# if available_books_result:
-#     for book in available_books_result:
-#         print(book.to_dict())
-# else:
-#     print(f"No books with at least {quantity_to_check} available copies.")
-
-# #Test the borrow_book method
-# print("Borrowing process for member 1:")
-# result_member1 = member1.borrow_book(book1)
-# if result_member1:
-#     print(f"{member1.name} has borrowed {book1.title}.")
-# else:
-#     print(f"Failed to borrow {book1.title} for {member1.name}.")
-
-# print("\nBorrowing process for member 2:")
-# result_member2 = member2.borrow_book(book10)
-# if result_member2:
-#     print(f"{member2.name} has borrowed {book1.title}.")
-# else:
-#     print(f"Failed to borrow {book1.title} for {member2.name}.")
-
-# # Print the list of borrowed books for each member
-# print("\nList of borrowed books for member 1:")
-# for book in member1.books_borrowed:
-#     print(book.to_dict())
-
-# print("\nList of borrowed books for member 2:")
-# for book in member2.books_borrowed:
-#     print(book.to_dict())
+# print("\nWelcome To The Book Lending Portal!!!")
 
 
-# #second borrow test
+# book_to_borrow = input("Which book will you like to borrow? ")
+# lending_processing, quantity_left = member5.borrow_book(library, book_to_borrow)
 
-# # Create an instance of the Members class
-# member = Members("ID001", "John")
-# member.library = library.library  # Provide access to the library
+# print("\nLending in process...")
+# print(lending_processing)
+# if quantity_left is not None:
+#     print("Quantity left after borrowing:", quantity_left)
 
-# # Test borrowing by book object
-# print("Borrowing by book object:")
-
-# book_to_borrow = input('Which book do you want to borrow? ')
-# member.borrow_book(book_to_borrow)
-# print("Books borrowed by member:", member.get_borrowed_books())
-
-# # Test borrowing by book title
-# print("\nBorrowing by title:")
-# member.borrow_book("Things Fall Apart")
-# print("Books borrowed by member:", member.get_borrowed_books())
-
-######To test Library system
-
-# Create an instance of the LibrarySystem class
-library_system = LibrarySystem()
-
-# Add members to the library system
-library_system.add_member(member1)
-library_system.add_member(member2)
-
-# Test borrowing books
-print("Borrowing process:")
-library_system.borrow_book("ID001", "Things Fall Apart")
-library_system.borrow_book("ID002", book2)
-
-# # Test returning books
-# print("\nReturning process:")
-# library_system.return_book("ID001", book1)
-
-# # Get library status
-# print("\nLibrary status:")
-# print(library_system.get_library_status())
-
-# # Get member status
-# print("\nMember status:")
-# print(library_system.get_member_status())
-
-# Convert library system to dictionary
-print("\nLibrary system dictionary:")
-print(library_system.to_dict())
+# Test get_borrowed_books method
+print("Books borrowed by", member1.name, ":")
+print(member1.get_borrowed_books())
