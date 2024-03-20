@@ -1,5 +1,7 @@
 from book import Book
 from library import Library
+from member import Member
+from library_system import LibrarySystem
 
 # Create instances of the Book class
 book1 = Book("ISBN123", "Aké: The Years of Childhood", "Wole Soyinka", "Autobiography", 15, 1981)
@@ -26,60 +28,15 @@ library.add_book(book8)
 library.add_book(book9)
 library.add_book(book10)
 
-class Member:
-    def __init__(self, member_id, name):
-        self.member_id = member_id
-        self.name = name
-        self.books_borrowed = []
-        
-    def borrow_book(self, library, book_title):
-        # Find the book in the library by title
-        book_to_borrow = None
-        for book in library.library:
-            if book.title == book_title:
-                book_to_borrow = book
-                break
-        
-        if book_to_borrow is None:
-            return "Book with title '{}' not found in the library.".format(book_title), None
-        
-        # Check if the book is available
-        if book_to_borrow.quantity > 0:
-            # Reduce the quantity of available copies
-            book_to_borrow.quantity -= 1
-            # Add the book to the member's list of borrowed books
-            self.books_borrowed.append(book_to_borrow)
-            return "Book '{}' successfully borrowed by {}. Quantity left: {}.".format(book_title, self.name, book_to_borrow.quantity), book_to_borrow.quantity
-        else:
-            return "Book '{}' is not available for borrowing.".format(book_title), None
-    
-        
-    def return_book(self, book):
-        # Allows a member to return a book
-        if book in self.books_borrowed:
-            self.books_borrowed.remove(book)
-        
-    def get_borrowed_books(self):
-        # Returns a list of dictionaries representing the books borrowed by the member
-        borrowed_books_info = []
-        for book in self.books_borrowed:
-            borrowed_books_info.append(book.to_dict())
-        return borrowed_books_info
-    
-    def to_dict(self):
-        # Returns a dictionary representation of the member
-        return {
-            'member_id': self.member_id,
-            'name': self.name,
-            'books_borrowed': [book.to_dict() for book in self.books_borrowed]
-        }
-
 #Create instances of the Members class
 member1 = Member("ID001", "Bukola")
 member2 = Member("ID002", "Saka")
 member3 = Member("ID003", "Osas")
 member4 = Member("ID004", "Friday")
 member5 = Member("ID005", "Francis")
+
+# Create an instance of the LibrarySystem class
+library_system = LibrarySystem()
 
 # Test various methods of the Library class
 # print("Library Contents:")
@@ -129,6 +86,49 @@ member5 = Member("ID005", "Francis")
 # if quantity_left is not None:
 #     print("Quantity left after borrowing:", quantity_left)
 
-# Test get_borrowed_books method
-print("Books borrowed by", member1.name, ":")
-print(member1.get_borrowed_books())
+# # Test get_borrowed_books method
+# print("Books borrowed by", member1.name, ":")
+# print(member1.get_borrowed_books())
+
+
+# Add books to the library
+library_system.library.add_book(book1)
+library_system.library.add_book(book2)
+library_system.library.add_book(book3)
+library_system.library.add_book(book4)
+library_system.library.add_book(book5)
+library_system.library.add_book(book6)
+library_system.library.add_book(book7)
+library_system.library.add_book(book8)
+library_system.library.add_book(book9)
+library_system.library.add_book(book10)
+
+
+# Add members to the library system
+library_system.add_member(member1)
+library_system.add_member(member2)
+library_system.add_member(member3)
+library_system.add_member(member4)
+library_system.add_member(member5)
+
+# # Test searching for books
+# print("Searching for books with 'Python' in title, author, or genre:")
+# print(library_system.search_books("The Bride Price"))
+
+# # Test borrowing a book
+# print("\nBorrowing 'The Bride Price' by Bukola:")
+# print(library_system.borrow_book("ID001", "The Bride Price"))
+
+# # Test returning a book
+# print("\nReturning 'The Bride Price' by Bukola:")
+# print(library_system.return_book("ID001", "The Bride Price"))
+
+# # Test getting library status
+# print("\nLibrary Status:")
+# print(library_system.get_library_status())
+
+# # Test getting member status
+# print("\nMember Status:")
+# print(library_system.get_member_status())
+
+
